@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+    <title>BEU Grade Notifier</title>
+  </head>
+  <body>
+    <header>
+      <h1>BEU Grades</h1>
+      <button id="check-now" type="button">Check now</button>
+    </header>
+
+    <p id="status" class="status">Loading…</p>
+
+    <section>
+      <h2>Recent changes</h2>
+      <ul id="changes" class="changes">
+        <li class="empty">Nothing yet.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Current semester</h2>
+      <table id="grades" class="grades"></table>
+    </section>
+
+    <footer>
+      <label>
+        Check every
+        <select id="interval">
+          <option value="15">15 min</option>
+          <option value="20">20 min</option>
+          <option value="30">30 min</option>
+          <option value="60">1 hour</option>
+        </select>
+      </label>
+      <label><input id="notify-absences" type="checkbox" /> Absence alerts</label>
+      <label><input id="enabled" type="checkbox" /> Enabled</label>
+    </footer>
+
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>

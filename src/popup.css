@@ -1,0 +1,116 @@
+:root {
+  --border: #e2e5ea;
+  --muted: #6b7280;
+  --accent: #1d5b8f;
+}
+
+body {
+  width: 360px;
+  margin: 0;
+  padding: 12px;
+  font: 13px/1.45 system-ui, sans-serif;
+  color: #1f2937;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 {
+  margin: 0;
+  font-size: 15px;
+}
+
+h2 {
+  margin: 14px 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+button {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+button[disabled] {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.status {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.status.error {
+  color: #b42318;
+}
+
+.changes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.changes li {
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.changes li.empty {
+  border: 0;
+  color: var(--muted);
+}
+
+.changes .course {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.grades {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grades th,
+.grades td {
+  padding: 4px 5px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.grades th {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.grades td.course-name,
+.grades th.course-name {
+  max-width: 140px;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}

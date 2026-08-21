@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "BEU Grade Notifier",
+  "version": "0.1.0",
+  "description": "Notifies you when a grade or absence count changes on the my.beu.edu.az student portal.",
+  "permissions": ["storage", "alarms", "notifications"],
+  "host_permissions": ["https://my.beu.edu.az/*"],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_title": "BEU Grade Notifier"
+  },
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

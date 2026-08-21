@@ -1,0 +1,15 @@
+{
+  "name": "beu-grade-notifier",
+  "version": "0.1.0",
+  "description": "Chrome extension that notifies you when grades change on the my.beu.edu.az student portal",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint": "9.15.0",
+    "globals": "15.12.0"
+  }
+}
