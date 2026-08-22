@@ -7,7 +7,8 @@ import { DEFAULT_SETTINGS, runCheck } from './checker.js';
 import { describeChange } from './diff.js';
 
 const ALARM_NAME = 'beu-grade-poll';
-const ICON = 'icons/icon128.png';
+// Root-relative: a bare path would resolve against /src/ and fail to load.
+const ICON = '/icons/icon128.png';
 
 /** Above this many changes a single summary reads better than a burst. */
 const SUMMARY_THRESHOLD = 4;
@@ -45,7 +46,11 @@ async function notify(changes) {
 
 async function check() {
   const { settings } = await chrome.storage.local.get('settings');
-  if (settings && settings.enabled === false) return { status: 'disabled', changes: [] };
+  if (settings && settings.enabled === false) {
+    const result = { status: 'disabled', changes: [] };
+    await store.set({ status: { at: Date.now(), ...result } });
+    return result;
+  }
   return runCheck({ fetchImpl: fetch, store, notify });
 }
 
