@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BEU Grades</string>
+    <string name="sign_in">Sign in</string>
+
+    <string name="channel_grades">Grade changes</string>
+    <string name="channel_grades_description">Alerts when a grade or absence count changes.</string>
+
+    <string name="grade_changed">Grade updated</string>
+    <string name="absence_changed">Absences updated</string>
+    <plurals name="changes_title">
+        <item quantity="one">%1$d grade change</item>
+        <item quantity="other">%1$d grade changes</item>
+    </plurals>
+</resources>
