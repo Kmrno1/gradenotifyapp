@@ -1,8 +1,13 @@
 # BEU Grade Notifier
 
-Chrome extension that watches the [my.beu.edu.az](https://my.beu.edu.az) student
-portal and raises a desktop notification when a grade or absence count changes,
-so you do not have to keep reloading the grades page.
+Watches the [my.beu.edu.az](https://my.beu.edu.az) student portal and raises a
+notification when a grade or absence count changes, so you do not have to keep
+reloading the grades page. Two clients share one design:
+
+- **Chrome extension** (repository root) — polls from the browser you are
+  already signed in with.
+- **Android app** (`android/`) — signs in once in a WebView and then polls on
+  its own. See [Android app](#android-app).
 
 ## How it works
 
@@ -95,6 +100,45 @@ tables. Course codes and names are kept because the layout quirks matter,
 while all marks and absence counts are randomised and every identifying
 element of the page was removed.
 
+## Android app
+
+Same pipeline, ported to Kotlin: `parser/GradesParser.kt`, `diff/GradeDiff.kt`
+and `poll/GradeChecker.kt` mirror the JavaScript modules and are covered by the
+same test cases, reading the same `test/fixtures/` files.
+
+The app never sees your password either. You sign in on the portal's own login
+page inside a WebView, and the `PHPSESSID` cookie the portal sets stays in the
+WebView cookie store, which the poller shares. Nothing else is persisted: the
+saved state holds marks, not credentials. When the session eventually expires
+the app asks you to sign in again rather than storing anything to re-login with.
+
+### Notification timing
+
+Polling runs as ordinary `WorkManager` periodic work — no permanent status-bar
+notification, and no foreground service. The cost is latency:
+
+| Phone state                          | Typical delay        |
+| ------------------------------------ | -------------------- |
+| In use or in your pocket             | about the interval   |
+| Screen off and still for a while     | interval to ~30 min  |
+| Stationary overnight (deep Doze)     | up to a few hours    |
+
+Android caps periodic work at **15 minutes** and defers it in Doze; unlocking
+or charging the phone releases the deferred check immediately. **Check now** in
+the app polls straight away. Interval is configurable (15/30/60 min).
+
+### Build
+
+```sh
+cd android
+ANDROID_HOME=/path/to/android-sdk ./gradlew :app:testDebugUnitTest
+ANDROID_HOME=/path/to/android-sdk ./gradlew :app:lintDebug
+ANDROID_HOME=/path/to/android-sdk ./gradlew :app:assembleDebug
+```
+
+The APK lands in `android/app/build/outputs/apk/debug/`. `minSdk` is 24,
+`compileSdk`/`targetSdk` 34.
+
 ## Scope
 
 Unofficial and unaffiliated with Baku Engineering University. It reads only
@@ -103,5 +147,6 @@ the grades page of the account already signed in, on a human timescale.
 ## Possible next steps
 
 - Cover the `mod=elan` (announcements) and `mod=ejurnal` (e-journal) modules.
-- Phone notifications, which need a server component to hold the session.
+- iOS, which cannot poll reliably in the background; prompt notifications there
+  need a server holding the session, and therefore the password.
 - GPA calculation from `AKTS` and `ORT`, which are already parsed.
